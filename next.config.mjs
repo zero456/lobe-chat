@@ -15,6 +15,7 @@ const nextConfig = {
   basePath,
   compress: isProd,
   experimental: {
+    instrumentationHook: true,
     optimizePackageImports: [
       'emoji-mart',
       '@emoji-mart/react',
