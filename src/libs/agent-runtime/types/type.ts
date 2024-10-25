@@ -38,6 +38,7 @@ export enum ModelProvider {
   HuggingFace = 'huggingface',
   Hunyuan = 'hunyuan',
   InternLM = 'internlm',
+  LMStudio = 'lmstudio',
   Minimax = 'minimax',
   Mistral = 'mistral',
   Moonshot = 'moonshot',
