@@ -12,7 +12,7 @@ import { systemStatusSelectors } from '@/store/global/selectors';
 import { useUserStore } from '@/store/user';
 
 // @ts-ignore
-const PWA: any = dynamic(() => import('@khmyznikov/pwa-install/dist/react-legacy/pwa-install.react-legacy.js'), {
+const PWA: any = dynamic(() => import('@khmyznikov/pwa-install'), {
   ssr: false,
 });
 
