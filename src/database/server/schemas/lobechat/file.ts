@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix  */
 import {
   boolean,
+  index,
   integer,
   jsonb,
   pgTable,
@@ -68,6 +69,8 @@ export const fileChunks = pgTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.fileId, t.chunkId] }),
+    // 添加 chunk_id 的单独索引
+    chunkIdIdx: index('idx_file_chunks_chunk_id').on(t.chunkId),
   }),
 );
 

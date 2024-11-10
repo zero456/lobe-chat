@@ -1,6 +1,5 @@
-import { asc, cosineDistance, count, eq, inArray, sql } from 'drizzle-orm';
-import { and, desc, isNull } from 'drizzle-orm/expressions';
-import { chunk } from 'lodash-es';
+import { asc, cosineDistance, count, eq, inArray, notExists, sql } from 'drizzle-orm';
+import { and, desc } from 'drizzle-orm/expressions';
 
 import { serverDB } from '@/database/server';
 import { ChunkMetadata, FileChunk } from '@/types/chunk';
@@ -45,24 +44,11 @@ export class ChunkModel {
   };
 
   deleteOrphanChunks = async () => {
-    const orphanedChunks = await serverDB
-      .select({ chunkId: chunks.id })
-      .from(chunks)
-      .leftJoin(fileChunks, eq(chunks.id, fileChunks.chunkId))
-      .where(isNull(fileChunks.fileId));
-
-    const ids = orphanedChunks.map((chunk) => chunk.chunkId);
-    if (ids.length === 0) return;
-
-    const list = chunk(ids, 500);
-
-    await serverDB.transaction(async (trx) => {
-      await Promise.all(
-        list.map(async (chunkIds) => {
-          await trx.delete(chunks).where(inArray(chunks.id, chunkIds));
-        }),
+    await serverDB
+      .delete(chunks)
+      .where(
+        notExists(serverDB.select().from(fileChunks).where(eq(chunks.id, fileChunks.chunkId))),
       );
-    });
   };
 
   findById = async (id: string) => {
