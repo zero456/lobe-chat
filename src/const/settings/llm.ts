@@ -1,6 +1,5 @@
 import { ModelProvider } from '@/libs/agent-runtime';
-
-import { genUserLLMConfig } from '@/utils/genUserLLMConfig'
+import { genUserLLMConfig } from '@/utils/genUserLLMConfig';
 
 export const DEFAULT_LLM_CONFIG = genUserLLMConfig({
   lmstudio: {
@@ -10,7 +9,7 @@ export const DEFAULT_LLM_CONFIG = genUserLLMConfig({
     enabled: true,
     fetchOnClient: true,
   },
-    openai: {
+  openai: {
     enabled: true,
   },
 });
