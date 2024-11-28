@@ -101,7 +101,7 @@ export default {
     },
     fetcher: {
       clear: '清除获取的模型',
-      fetch: '获取模型列表',
+      fetch: '获取模型',
       fetching: '正在获取模型列表...',
       latestTime: '上次更新时间：{{time}}',
       noLatestTime: '暂未获取列表',
@@ -414,6 +414,7 @@ export default {
     'common': '通用设置',
     'experiment': '实验',
     'llm': '语言模型',
+    'provider': '服务供应商',
     'sync': '云端同步',
     'system-agent': '系统助手',
     'tts': '语音服务',
