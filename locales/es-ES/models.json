@@ -602,6 +602,9 @@
   "gemini-2.0-flash-exp": {
     "description": "Gemini 2.0 Flash Exp es el último modelo experimental de inteligencia artificial multimodal de Google, que cuenta con características de próxima generación, velocidad superior, llamadas nativas a herramientas y generación multimodal."
   },
+  "gemini-2.0-flash-thinking-exp-1219": {
+    "description": "Gemini 2.0 Flash Exp es el último modelo de IA multimodal experimental de Google, que cuenta con características de próxima generación, velocidad excepcional, llamadas a herramientas nativas y generación multimodal."
+  },
   "gemini-exp-1114": {
     "description": "Gemini Exp 1114 es el modelo de IA multimodal experimental más reciente de Google, que cuenta con una capacidad de procesamiento rápido y admite entradas de texto, imagen y video, adecuado para una amplia gama de tareas de manera eficiente."
   },
@@ -1093,6 +1096,9 @@
   },
   "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF": {
     "description": "Llama 3.1 Nemotron 70B es un modelo de lenguaje a gran escala personalizado por NVIDIA, diseñado para mejorar la utilidad de las respuestas generadas por LLM a las consultas de los usuarios. Este modelo ha destacado en pruebas de referencia como Arena Hard, AlpacaEval 2 LC y GPT-4-Turbo MT-Bench, ocupando el primer lugar en los tres benchmarks de alineación automática hasta el 1 de octubre de 2024. El modelo se entrena utilizando RLHF (especialmente REINFORCE), Llama-3.1-Nemotron-70B-Reward y HelpSteer2-Preference sobre la base del modelo Llama-3.1-70B-Instruct."
+  },
+  "o1": {
+    "description": "Se centra en el razonamiento avanzado y la resolución de problemas complejos, incluyendo tareas matemáticas y científicas. Es ideal para aplicaciones que requieren una comprensión profunda del contexto y flujos de trabajo de agentes."
   },
   "o1-mini": {
     "description": "o1-mini es un modelo de inferencia rápido y rentable diseñado para aplicaciones de programación, matemáticas y ciencias. Este modelo tiene un contexto de 128K y una fecha de corte de conocimiento en octubre de 2023."

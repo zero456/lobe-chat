@@ -602,6 +602,9 @@
   "gemini-2.0-flash-exp": {
     "description": "Gemini 2.0 Flash Exp는 Google의 최신 실험적 다중 모달 AI 모델로, 차세대 기능, 뛰어난 속도, 네이티브 도구 호출 및 다중 모달 생성을 갖추고 있습니다."
   },
+  "gemini-2.0-flash-thinking-exp-1219": {
+    "description": "Gemini 2.0 Flash Exp는 Google의 최신 실험적 다중 모달 AI 모델로, 차세대 기능, 뛰어난 속도, 원주율 도구 호출 및 다중 모달 생성을 제공합니다."
+  },
   "gemini-exp-1114": {
     "description": "Gemini Exp 1114는 Google의 최신 실험적 다중 모달 AI 모델로, 빠른 처리 능력을 갖추고 있으며, 텍스트, 이미지 및 비디오 입력을 지원하여 다양한 작업에 효율적으로 확장할 수 있습니다."
   },
@@ -1093,6 +1096,9 @@
   },
   "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF": {
     "description": "Llama 3.1 Nemotron 70B는 NVIDIA가 맞춤 제작한 대규모 언어 모델로, LLM이 생성한 응답이 사용자 쿼리에 얼마나 도움이 되는지를 향상시키기 위해 설계되었습니다. 이 모델은 Arena Hard, AlpacaEval 2 LC 및 GPT-4-Turbo MT-Bench와 같은 벤치마크 테스트에서 뛰어난 성능을 보였으며, 2024년 10월 1일 기준으로 모든 자동 정렬 벤치마크 테스트에서 1위를 차지했습니다. 이 모델은 RLHF(특히 REINFORCE), Llama-3.1-Nemotron-70B-Reward 및 HelpSteer2-Preference 프롬프트를 사용하여 Llama-3.1-70B-Instruct 모델을 기반으로 훈련되었습니다."
+  },
+  "o1": {
+    "description": "고급 추론 및 복잡한 문제 해결에 중점을 두며, 수학 및 과학 작업을 포함합니다. 깊은 맥락 이해와 대리 작업 흐름이 필요한 애플리케이션에 매우 적합합니다."
   },
   "o1-mini": {
     "description": "o1-mini는 프로그래밍, 수학 및 과학 응용 프로그램을 위해 설계된 빠르고 경제적인 추론 모델입니다. 이 모델은 128K의 컨텍스트와 2023년 10월의 지식 기준일을 가지고 있습니다."

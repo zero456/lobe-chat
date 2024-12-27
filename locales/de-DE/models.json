@@ -602,6 +602,9 @@
   "gemini-2.0-flash-exp": {
     "description": "Gemini 2.0 Flash Exp ist Googles neuestes experimentelles multimodales KI-Modell mit Next-Gen-Funktionen, herausragender Geschwindigkeit, nativer Werkzeuganwendung und multimodaler Generierung."
   },
+  "gemini-2.0-flash-thinking-exp-1219": {
+    "description": "Gemini 2.0 Flash Exp ist Googles neuestes experimentelles multimodales KI-Modell mit der nächsten Generation von Funktionen, außergewöhnlicher Geschwindigkeit, nativen Toolaufrufen und multimodaler Generierung."
+  },
   "gemini-exp-1114": {
     "description": "Gemini Exp 1114 ist Googles neuestes experimentelles multimodales KI-Modell, das über eine schnelle Verarbeitungskapazität verfügt und Texte, Bilder und Videoeingaben unterstützt, um eine effiziente Skalierung für verschiedene Aufgaben zu ermöglichen."
   },
@@ -1093,6 +1096,9 @@
   },
   "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF": {
     "description": "Llama 3.1 Nemotron 70B ist ein von NVIDIA maßgeschneidertes großes Sprachmodell, das darauf abzielt, die Hilfsfähigkeit der von LLM generierten Antworten auf Benutzeranfragen zu verbessern. Dieses Modell hat in Benchmark-Tests wie Arena Hard, AlpacaEval 2 LC und GPT-4-Turbo MT-Bench hervorragende Leistungen gezeigt und belegt bis zum 1. Oktober 2024 den ersten Platz in allen drei automatischen Ausrichtungsbenchmarks. Das Modell wurde mit RLHF (insbesondere REINFORCE), Llama-3.1-Nemotron-70B-Reward und HelpSteer2-Preference-Prompts auf dem Llama-3.1-70B-Instruct-Modell trainiert."
+  },
+  "o1": {
+    "description": "Fokussiert auf fortgeschrittenes Denken und die Lösung komplexer Probleme, einschließlich mathematischer und wissenschaftlicher Aufgaben. Besonders geeignet für Anwendungen, die ein tiefes Verständnis des Kontexts und die Abwicklung von Arbeitsabläufen erfordern."
   },
   "o1-mini": {
     "description": "o1-mini ist ein schnelles und kosteneffizientes Inferenzmodell, das für Programmier-, Mathematik- und Wissenschaftsanwendungen entwickelt wurde. Das Modell hat einen Kontext von 128K und einen Wissensstand bis Oktober 2023."
