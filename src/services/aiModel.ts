@@ -4,6 +4,7 @@ import {
   AiProviderModelListItem,
   CreateAiModelParams,
   ToggleAiModelEnableParams,
+  UpdateAiModelParams,
 } from '@/types/aiModel';
 
 class AiModelService {
@@ -23,8 +24,8 @@ class AiModelService {
     return lambdaClient.aiModel.toggleModelEnabled.mutate(params);
   };
 
-  updateAiModel = async (id: string, value: any) => {
-    return lambdaClient.aiModel.updateAiModel.mutate({ id, value });
+  updateAiModel = async (id: string, providerId: string, value: UpdateAiModelParams) => {
+    return lambdaClient.aiModel.updateAiModel.mutate({ id, providerId, value });
   };
 
   batchUpdateAiModels = async (id: string, models: AiProviderModelListItem[]) => {
@@ -39,8 +40,8 @@ class AiModelService {
     return lambdaClient.aiModel.updateAiModelOrder.mutate({ providerId, sortMap: items });
   };
 
-  deleteAiModel = async (id: string) => {
-    return lambdaClient.aiModel.removeAiModel.mutate({ id });
+  deleteAiModel = async (params: { id: string; providerId: string }) => {
+    return lambdaClient.aiModel.removeAiModel.mutate(params);
   };
 }
 

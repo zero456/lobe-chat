@@ -1,15 +1,15 @@
 import { ModelIcon } from '@lobehub/icons';
 import { ActionIcon, Tag, copyToClipboard } from '@lobehub/ui';
-import { Switch, Typography } from 'antd';
+import { App, Switch, Typography } from 'antd';
 import { createStyles, useTheme } from 'antd-style';
-import { LucideSettings } from 'lucide-react';
+import { LucidePencil, TrashIcon } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
 
 import { ModelInfoTags } from '@/components/ModelSelect';
 import { aiModelSelectors, useAiInfraStore } from '@/store/aiInfra';
-import { AiProviderModelListItem, ChatModelPricing } from '@/types/aiModel';
+import { AiModelSourceEnum, AiProviderModelListItem, ChatModelPricing } from '@/types/aiModel';
 
 import ModelConfigModal from './ModelConfigModal';
 
@@ -73,10 +73,14 @@ const ModelItem = memo<ModelItemProps>(
     const { t } = useTranslation(['modelProvider', 'components', 'models']);
     const theme = useTheme();
 
-    const [isModelLoading, toggleModelEnabled] = useAiInfraStore((s) => [
-      aiModelSelectors.isModelLoading(id)(s),
-      s.toggleModelEnabled,
-    ]);
+    const [activeAiProvider, isModelLoading, toggleModelEnabled, removeAiModel] = useAiInfraStore(
+      (s) => [
+        s.activeAiProvider,
+        aiModelSelectors.isModelLoading(id)(s),
+        s.toggleModelEnabled,
+        s.removeAiModel,
+      ],
+    );
 
     const [checked, setChecked] = useState(enabled);
     const [showConfig, setShowConfig] = useState(false);
@@ -85,6 +89,7 @@ const ModelItem = memo<ModelItemProps>(
       typeof pricing?.input !== 'undefined' ? `输入 $${pricing?.input} /M` : undefined,
       typeof pricing?.output !== 'undefined' ? `输出 $${pricing?.output} /M` : undefined,
     ].filter(Boolean) as string[];
+    const { message, modal } = App.useApp();
 
     return (
       <Flexbox
@@ -109,9 +114,9 @@ const ModelItem = memo<ModelItemProps>(
               >
                 {id}
               </Tag>
-              <div className={styles.config}>
+              <Flexbox className={styles.config} horizontal>
                 <ActionIcon
-                  icon={LucideSettings}
+                  icon={LucidePencil}
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowConfig(true);
@@ -119,7 +124,30 @@ const ModelItem = memo<ModelItemProps>(
                   size={'small'}
                   title={t('providerModels.item.config')}
                 />
-              </div>
+                {source !== AiModelSourceEnum.Builtin && (
+                  <ActionIcon
+                    icon={TrashIcon}
+                    onClick={() => {
+                      modal.confirm({
+                        centered: true,
+                        okButtonProps: {
+                          danger: true,
+                          type: 'primary',
+                        },
+                        onOk: async () => {
+                          await removeAiModel(id, activeAiProvider!);
+                          message.success(t('providerModels.item.delete.success'));
+                        },
+                        title: t('providerModels.item.delete.confirm', {
+                          displayName: displayName || id,
+                        }),
+                      });
+                    }}
+                    size={'small'}
+                    title={t('providerModels.item.delete.title')}
+                  />
+                )}
+              </Flexbox>
               {showConfig && <ModelConfigModal id={id} open={showConfig} setOpen={setShowConfig} />}
             </Flexbox>
             <Flexbox align={'baseline'} gap={8} horizontal>

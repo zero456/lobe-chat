@@ -190,11 +190,19 @@ export default {
     },
   },
   providerModels: {
+    createNew: {
+      title: '创建自定义 AI 模型',
+    },
     item: {
       config: '配置模型',
       customModelCards: {
         addNew: '创建并添加 {{id}} 模型',
         confirmDelete: '即将删除该自定义模型，删除后将不可恢复，请谨慎操作。',
+      },
+      delete: {
+        confirm: '确认删除模型 {{displayName}}？',
+        success: '删除成功',
+        title: '删除模型',
       },
       modelConfig: {
         azureDeployName: {
@@ -236,6 +244,7 @@ export default {
       disabled: '未启用',
       enabled: '已启用',
     },
+
     searchNotFound: '未找到搜索结果',
   },
   sortModal: {

@@ -29,10 +29,14 @@ const isModelEnabled = (id: string) => (s: AIProviderStoreState) =>
 const isModelLoading = (id: string) => (s: AIProviderStoreState) =>
   s.aiModelLoadingIds.includes(id);
 
+const getAiModelById = (id: string) => (s: AIProviderStoreState) =>
+  s.aiProviderModelList.find((i) => i.id === id);
+
 export const aiModelSelectors = {
   disabledAiProviderModelList,
   enabledAiProviderModelList,
   filteredAiProviderModelList,
+  getAiModelById,
   hasRemoteModels,
   isModelEnabled,
   isModelLoading,

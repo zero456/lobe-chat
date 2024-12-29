@@ -7,7 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
 
 import { useAiInfraStore } from '@/store/aiInfra';
-import { aiModelSelectors } from '@/store/aiInfra/slices/aiModel';
+import { aiModelSelectors } from '@/store/aiInfra/selectors';
+
+import CreateNewModelModal from './CreateNewModelModal';
 
 interface ModelFetcherProps {
   provider: string;
@@ -16,18 +18,26 @@ interface ModelFetcherProps {
 const ModelTitle = memo<ModelFetcherProps>(({ provider }) => {
   const theme = useTheme();
   const { t } = useTranslation('setting');
-  const [fetchRemoteModelList, clearObtainedModels, useFetchAiProviderModels] = useAiInfraStore(
-    (s) => [s.fetchRemoteModelList, s.clearRemoteModels, s.useFetchAiProviderModels],
-  );
-  const { isLoading } = useFetchAiProviderModels(provider);
-
-  const [totalModels, hasRemoteModels] = useAiInfraStore((s) => [
+  const [
+    totalModels,
+    hasRemoteModels,
+    fetchRemoteModelList,
+    clearObtainedModels,
+    useFetchAiProviderModels,
+  ] = useAiInfraStore((s) => [
     // s.modelSearchKeyword,
     aiModelSelectors.totalAiProviderModelList(s),
     aiModelSelectors.hasRemoteModels(s),
+    s.fetchRemoteModelList,
+    s.clearRemoteModels,
+    s.useFetchAiProviderModels,
   ]);
+
+  const { isLoading } = useFetchAiProviderModels(provider);
+
   const [fetchRemoteModelsLoading, setFetchRemoteModelsLoading] = useState(false);
   const [clearRemoteModelsLoading, setClearRemoteModelsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Flexbox
@@ -92,7 +102,14 @@ const ModelTitle = memo<ModelFetcherProps>(({ provider }) => {
               >
                 {fetchRemoteModelsLoading ? t('llm.fetcher.fetching') : t('llm.fetcher.fetch')}
               </Button>
-              <Button icon={<Icon icon={PlusIcon} />} size={'small'}></Button>
+              <Button
+                icon={<Icon icon={PlusIcon} />}
+                onClick={() => {
+                  setShowModal(true);
+                }}
+                size={'small'}
+              />
+              <CreateNewModelModal open={showModal} setOpen={setShowModal} />
             </Space.Compact>
           </Flexbox>
         )}{' '}

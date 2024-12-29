@@ -4,8 +4,8 @@ export type ModelPriceCurrency = 'CNY' | 'USD';
 
 export const AiModelSourceEnum = {
   Builtin: 'builtin',
+  Custom: 'custom',
   Remote: 'remote',
-  custom: 'custom',
 } as const;
 export type AiModelSourceType = (typeof AiModelSourceEnum)[keyof typeof AiModelSourceEnum];
 
@@ -32,6 +32,12 @@ export interface ModelAbilities {
    */
   vision?: boolean;
 }
+
+const AiModelAbilitiesSchema = z.object({
+  // files: z.boolean().optional(),
+  functionCall: z.boolean().optional(),
+  vision: z.boolean().optional(),
+});
 
 // 语言模型的设置参数
 export interface LLMParams {
@@ -217,11 +223,12 @@ export interface AIRealtimeModelCard extends AIBaseModelCard {
 
 // create
 export const CreateAiModelSchema = z.object({
-  config: z.object({}).passthrough().optional(),
-  description: z.string().optional(),
+  abilities: AiModelAbilitiesSchema.optional(),
+  contextWindowTokens: z.number().optional(),
+  displayName: z.string().optional(),
   id: z.string(),
-  logo: z.string().optional(),
-  name: z.string(),
+  providerId: z.string(),
+  releasedAt: z.string().optional(),
 
   // checkModel: z.string().optional(),
   // homeUrl: z.string().optional(),
@@ -245,13 +252,13 @@ export interface AiProviderModelListItem {
 }
 
 // Update
-export const UpdateAiModelConfigSchema = z.object({
-  checkModel: z.string().optional(),
-  fetchOnClient: z.boolean().optional(),
-  keyVaults: z.object({}).passthrough().optional(),
+export const UpdateAiModelSchema = z.object({
+  abilities: AiModelAbilitiesSchema.optional(),
+  contextWindowTokens: z.number().optional(),
+  displayName: z.string().optional(),
 });
 
-export type UpdateAiModelConfigParams = z.infer<typeof UpdateAiModelConfigSchema>;
+export type UpdateAiModelParams = z.infer<typeof UpdateAiModelSchema>;
 
 export interface AiModelSortMap {
   id: string;

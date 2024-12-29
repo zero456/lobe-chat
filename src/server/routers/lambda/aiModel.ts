@@ -11,7 +11,7 @@ import {
   AiProviderModelListItem,
   CreateAiModelSchema,
   ToggleAiModelEnableSchema,
-  UpdateAiModelConfigSchema,
+  UpdateAiModelSchema,
 } from '@/types/aiModel';
 import { mergeArrayById } from '@/utils/merge';
 
@@ -104,9 +104,9 @@ export const aiModelRouter = router({
     }),
 
   removeAiModel: aiModelProcedure
-    .input(z.object({ id: z.string(), removeModels: z.boolean().optional() }))
+    .input(z.object({ id: z.string(), providerId: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      return ctx.aiModelModel.delete(input.id);
+      return ctx.aiModelModel.delete(input.id, input.providerId);
     }),
 
   removeAllAiModels: aiModelProcedure.mutation(async ({ ctx }) => {
@@ -123,21 +123,12 @@ export const aiModelRouter = router({
     .input(
       z.object({
         id: z.string(),
-        value: CreateAiModelSchema.partial(),
+        providerId: z.string(),
+        value: UpdateAiModelSchema,
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      return ctx.aiModelModel.update(input.id, input.value);
-    }),
-  updateAiModelConfig: aiModelProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        value: UpdateAiModelConfigSchema,
-      }),
-    )
-    .mutation(async ({ input, ctx }) => {
-      return ctx.aiModelModel.updateConfig(input.id, input.value);
+      return ctx.aiModelModel.update(input.id, input.providerId, input.value);
     }),
 
   updateAiModelOrder: aiModelProcedure

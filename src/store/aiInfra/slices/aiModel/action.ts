@@ -8,6 +8,7 @@ import { AiInfraStore } from '@/store/aiInfra/store';
 import {
   AiModelSortMap,
   AiProviderModelListItem,
+  CreateAiModelParams,
   ToggleAiModelEnableParams,
 } from '@/types/aiModel';
 
@@ -16,10 +17,17 @@ const FETCH_AI_PROVIDER_MODEL_LIST_KEY = 'FETCH_AI_PROVIDER_MODELS';
 export interface AiModelAction {
   batchUpdateAiModels: (models: AiProviderModelListItem[]) => Promise<void>;
   clearRemoteModels: (provider: string) => Promise<void>;
+  createNewAiModel: (params: CreateAiModelParams) => Promise<void>;
   fetchRemoteModelList: (providerId: string) => Promise<void>;
   internal_toggleAiModelLoading: (id: string, loading: boolean) => void;
   refreshAiModelList: () => Promise<void>;
+  removeAiModel: (id: string, providerId: string) => Promise<void>;
   toggleModelEnabled: (params: Omit<ToggleAiModelEnableParams, 'providerId'>) => Promise<void>;
+  updateAiModelsConfig: (
+    id: string,
+    providerId: string,
+    data: Partial<AiProviderModelListItem>,
+  ) => Promise<void>;
   updateAiModelsSort: (providerId: string, items: AiModelSortMap[]) => Promise<void>;
 
   useFetchAiProviderModels: (id: string) => SWRResponse<AiProviderModelListItem[]>;
@@ -40,6 +48,10 @@ export const createAiModelSlice: StateCreator<
   },
   clearRemoteModels: async (provider) => {
     await aiModelService.clearRemoteModels(provider);
+    await get().refreshAiModelList();
+  },
+  createNewAiModel: async (data) => {
+    await aiModelService.createAiModel(data);
     await get().refreshAiModelList();
   },
   fetchRemoteModelList: async (providerId) => {
@@ -78,6 +90,10 @@ export const createAiModelSlice: StateCreator<
   refreshAiModelList: async () => {
     await mutate([FETCH_AI_PROVIDER_MODEL_LIST_KEY, get().activeAiProvider]);
   },
+  removeAiModel: async (id, providerId) => {
+    await aiModelService.deleteAiModel({ id, providerId });
+    await get().refreshAiModelList();
+  },
   toggleModelEnabled: async (params) => {
     const { activeAiProvider } = get();
     if (!activeAiProvider) return;
@@ -90,6 +106,10 @@ export const createAiModelSlice: StateCreator<
     get().internal_toggleAiModelLoading(params.id, false);
   },
 
+  updateAiModelsConfig: async (id, providerId, data) => {
+    await aiModelService.updateAiModel(id, providerId, data);
+    await get().refreshAiModelList();
+  },
   updateAiModelsSort: async (id, items) => {
     await aiModelService.updateAiModelOrder(id, items);
     await get().refreshAiModelList();

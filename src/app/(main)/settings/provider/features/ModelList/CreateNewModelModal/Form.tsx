@@ -8,7 +8,6 @@ import { AiModelType } from '@/types/aiModel';
 import { ChatModelCard } from '@/types/llm';
 
 interface ModelConfigFormProps {
-  idEditable?: boolean;
   initialValues?: ChatModelCard;
   onFormInstanceReady: (instance: FormInstance) => void;
   showAzureDeployName?: boolean;
@@ -16,7 +15,7 @@ interface ModelConfigFormProps {
 }
 
 const ModelConfigForm = memo<ModelConfigFormProps>(
-  ({ showAzureDeployName, idEditable, onFormInstanceReady, initialValues }) => {
+  ({ showAzureDeployName, onFormInstanceReady, initialValues }) => {
     const { t } = useTranslation('setting');
 
     const [formInstance] = Form.useForm();
@@ -49,10 +48,7 @@ const ModelConfigForm = memo<ModelConfigFormProps>(
             label={t('llm.customModelCards.modelConfig.id.title')}
             name={'id'}
           >
-            <Input
-              disabled={!idEditable}
-              placeholder={t('llm.customModelCards.modelConfig.id.placeholder')}
-            />
+            <Input placeholder={t('llm.customModelCards.modelConfig.id.placeholder')} />
           </Form.Item>
           {showAzureDeployName && (
             <Form.Item

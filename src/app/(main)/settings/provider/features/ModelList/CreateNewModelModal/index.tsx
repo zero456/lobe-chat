@@ -1,30 +1,26 @@
 import { Modal } from '@lobehub/ui';
 import { Button, FormInstance } from 'antd';
-import isEqual from 'fast-deep-equal';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ModelProvider } from '@/libs/agent-runtime';
-import { aiModelSelectors, useAiInfraStore } from '@/store/aiInfra';
-import { AiModelSourceEnum } from '@/types/aiModel';
+import { useAiInfraStore } from '@/store/aiInfra';
 
 import ModelConfigForm from './Form';
 
 interface ModelConfigModalProps {
-  id: string;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const ModelConfigModal = memo<ModelConfigModalProps>(({ id, open, setOpen }) => {
-  const { t } = useTranslation(['common', 'setting']);
+const ModelConfigModal = memo<ModelConfigModalProps>(({ open, setOpen }) => {
+  const { t } = useTranslation(['modelProvider', 'common']);
   const [formInstance, setFormInstance] = useState<FormInstance>();
   const [loading, setLoading] = useState(false);
-  const [editingProvider, updateAiModelsConfig] = useAiInfraStore((s) => [
+  const [editingProvider, createNewAiModel] = useAiInfraStore((s) => [
     s.activeAiProvider!,
-    s.updateAiModelsConfig,
+    s.createNewAiModel,
   ]);
-  const model = useAiInfraStore(aiModelSelectors.getAiModelById(id), isEqual);
 
   const closeModal = () => {
     setOpen(false);
@@ -35,18 +31,18 @@ const ModelConfigModal = memo<ModelConfigModalProps>(({ id, open, setOpen }) => 
       destroyOnClose
       footer={[
         <Button key="cancel" onClick={closeModal}>
-          {t('cancel')}
+          {t('cancel', { ns: 'common' })}
         </Button>,
 
         <Button
           key="ok"
           loading={loading}
           onClick={async () => {
-            if (!editingProvider || !id || !formInstance) return;
+            if (!editingProvider || !formInstance) return;
             const data = formInstance.getFieldsValue();
 
             setLoading(true);
-            await updateAiModelsConfig(id, editingProvider, data);
+            await createNewAiModel({ ...data, providerId: editingProvider });
             setLoading(false);
 
             closeModal();
@@ -54,21 +50,18 @@ const ModelConfigModal = memo<ModelConfigModalProps>(({ id, open, setOpen }) => 
           style={{ marginInlineStart: '16px' }}
           type="primary"
         >
-          {t('ok')}
+          {t('ok', { ns: 'common' })}
         </Button>,
       ]}
       maskClosable
       onCancel={closeModal}
       open={open}
-      title={t('llm.customModelCards.modelConfig.modalTitle', { ns: 'setting' })}
+      title={t('providerModels.createNew.title')}
       zIndex={1251} // Select is 1150
     >
       <ModelConfigForm
-        idEditable={model?.source !== AiModelSourceEnum.Builtin}
-        initialValues={model}
         onFormInstanceReady={setFormInstance}
         showAzureDeployName={editingProvider === ModelProvider.Azure}
-        type={model?.type}
       />
     </Modal>
   );

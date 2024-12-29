@@ -22,16 +22,27 @@ export class AiModelModel {
   create = async (params: NewAiModelItem) => {
     const [result] = await this.db
       .insert(aiModels)
-      .values({ ...params, userId: this.userId })
+      .values({
+        ...params,
+        enabled: true, // enabled by default
+        source: AiModelSourceEnum.Custom,
+        userId: this.userId,
+      })
       .returning();
 
     return result;
   };
 
-  delete = async (id: string) => {
+  delete = async (id: string, providerId: string) => {
     return this.db
       .delete(aiModels)
-      .where(and(eq(aiModels.id, id), eq(aiModels.userId, this.userId)));
+      .where(
+        and(
+          eq(aiModels.id, id),
+          eq(aiModels.providerId, providerId),
+          eq(aiModels.userId, this.userId),
+        ),
+      );
   };
 
   deleteAll = async () => {
@@ -76,11 +87,14 @@ export class AiModelModel {
     });
   };
 
-  update = async (id: string, value: Partial<AiModelSelectItem>) => {
+  update = async (id: string, providerId: string, value: Partial<AiModelSelectItem>) => {
     return this.db
-      .update(aiModels)
-      .set({ ...value, updatedAt: new Date() })
-      .where(and(eq(aiModels.id, id), eq(aiModels.userId, this.userId)));
+      .insert(aiModels)
+      .values({ ...value, id, providerId, updatedAt: new Date(), userId: this.userId })
+      .onConflictDoUpdate({
+        set: value,
+        target: [aiModels.id, aiModels.providerId, aiModels.userId],
+      });
   };
 
   toggleModelEnabled = async (value: ToggleAiModelEnableParams) => {
