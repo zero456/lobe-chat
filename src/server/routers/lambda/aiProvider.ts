@@ -1,4 +1,3 @@
-import { uniqBy } from 'lodash-es';
 import { z } from 'zod';
 
 import { DEFAULT_MODEL_PROVIDER_LIST } from '@/config/modelProviders';
@@ -15,7 +14,7 @@ import {
   UpdateAiProviderConfigSchema,
 } from '@/types/aiProvider';
 import { ProviderConfig } from '@/types/user/settings';
-import { merge } from '@/utils/merge';
+import { merge, mergeArrayById } from '@/utils/merge';
 
 const aiProviderProcedure = authedProcedure.use(async (opts) => {
   const { ctx } = opts;
@@ -60,6 +59,8 @@ export const aiProviderRouter = router({
     >;
 
     const userProviders = await ctx.aiProviderModel.getAiProviderList();
+    // 1. 先创建一个基于 DEFAULT_MODEL_PROVIDER_LIST id 顺序的映射
+    const orderMap = new Map(DEFAULT_MODEL_PROVIDER_LIST.map((item, index) => [item.id, index]));
 
     const builtinProviders = DEFAULT_MODEL_PROVIDER_LIST.map((item) => ({
       description: item.description,
@@ -71,7 +72,16 @@ export const aiProviderRouter = router({
       source: 'builtin',
     })) as AiProviderListItem[];
 
-    return uniqBy([...builtinProviders, ...userProviders], 'id');
+    const mergedProviders = mergeArrayById(builtinProviders, userProviders);
+
+    // 3. 根据 orderMap 排序
+    const sortedProviders = mergedProviders.sort((a, b) => {
+      const orderA = orderMap.get(a.id) ?? Number.MAX_SAFE_INTEGER;
+      const orderB = orderMap.get(b.id) ?? Number.MAX_SAFE_INTEGER;
+      return orderA - orderB;
+    });
+
+    return sortedProviders;
   }),
 
   removeAiProvider: aiProviderProcedure

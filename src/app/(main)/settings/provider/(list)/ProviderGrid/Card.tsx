@@ -1,13 +1,14 @@
 import { ProviderCombine, ProviderIcon } from '@lobehub/icons';
 import { Avatar } from '@lobehub/ui';
-import { Divider, Skeleton, Switch, Typography } from 'antd';
+import { Divider, Skeleton, Typography } from 'antd';
 import { createStyles } from 'antd-style';
 import Link from 'next/link';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
 
-import { aiProviderSelectors, useAiInfraStore } from '@/store/aiInfra';
+import InstantSwitch from '@/components/InstantSwitch';
+import { useAiInfraStore } from '@/store/aiInfra';
 import { AiProviderListItem } from '@/types/aiProvider';
 
 const { Paragraph } = Typography;
@@ -69,9 +70,6 @@ const ProviderCard = memo<ProviderCardProps>(
     const { t } = useTranslation('providers');
     const { cx, styles, theme } = useStyles();
     const toggleProviderEnabled = useAiInfraStore((s) => s.toggleProviderEnabled);
-    const isProviderLoading = useAiInfraStore(aiProviderSelectors.isProviderLoading(id));
-
-    const [checked, setChecked] = useState(enabled);
 
     if (loading)
       return (
@@ -115,12 +113,10 @@ const ProviderCard = memo<ProviderCardProps>(
           <Divider style={{ margin: '4px 0' }} />
           <Flexbox horizontal justify={'space-between'} paddingBlock={'8px 0'}>
             <div />
-            <Switch
-              checked={checked}
-              loading={isProviderLoading}
-              onChange={(checked) => {
-                setChecked(checked);
-                toggleProviderEnabled(id, checked);
+            <InstantSwitch
+              enabled={enabled}
+              onChange={async (checked) => {
+                await toggleProviderEnabled(id, checked);
               }}
               size={'small'}
             />

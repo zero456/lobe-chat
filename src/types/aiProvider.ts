@@ -26,6 +26,7 @@ export interface AiProviderListItem {
   id: string;
   logo?: string;
   name?: string;
+  sort?: number;
   source: 'builtin' | 'custom';
 }
 

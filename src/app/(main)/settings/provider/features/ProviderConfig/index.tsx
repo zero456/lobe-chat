@@ -12,6 +12,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Center, Flexbox } from 'react-layout-kit';
 import urlJoin from 'url-join';
 
+import InstantSwitch from '@/components/InstantSwitch';
 import { FORM_STYLE } from '@/const/layoutTokens';
 import { AES_GCM_URL, BASE_PROVIDER_DOC_URL } from '@/const/url';
 import { isServerMode } from '@/const/version';
@@ -258,11 +259,11 @@ const ProviderConfig = memo<ProviderConfigProps>(
             isLoading ? (
               <Skeleton.Button active className={styles.switchLoading} />
             ) : (
-              <Switch
-                onChange={(enabled) => {
-                  toggleProviderEnabled(id as any, enabled);
+              <InstantSwitch
+                enabled={enabled}
+                onChange={async (enabled) => {
+                  await toggleProviderEnabled(id as any, enabled);
                 }}
-                value={enabled}
               />
             )
           ) : undefined}

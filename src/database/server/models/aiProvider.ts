@@ -72,6 +72,7 @@ export class AiProviderModel {
         id: aiProviders.id,
         logo: aiProviders.logo,
         name: aiProviders.name,
+        sort: aiProviders.sort,
         source: aiProviders.source,
       })
       .from(aiProviders)

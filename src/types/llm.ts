@@ -79,7 +79,6 @@ export interface ModelProviderCard {
    * whether provider is enabled by default
    */
   enabled?: boolean;
-  enabledChatModels: string[];
   id: string;
   modelList?: {
     azureDeployName?: boolean;

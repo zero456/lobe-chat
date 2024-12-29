@@ -4,7 +4,7 @@ import { GlobalLLMProviderKey } from '@/types/user/settings';
 
 // List
 const enabledAiProviderList = (s: AIProviderStoreState) =>
-  s.aiProviderList.filter((item) => item.enabled);
+  s.aiProviderList.filter((item) => item.enabled).sort((a, b) => a.sort! - b.sort!);
 
 const disabledAiProviderList = (s: AIProviderStoreState) =>
   s.aiProviderList.filter((item) => !item.enabled);
