@@ -38,7 +38,7 @@ const ModelConfigModal = memo<ModelConfigModalProps>(
             key="ok"
             onClick={() => {
               if (!editingProvider || !id || !formInstance) return;
-              const data = formInstance.getFieldsValue();
+              // const data = formInstance.getFieldsValue();
 
               // dispatchCustomModelCards(editingProvider as any, { id, type: 'update', value: data });
 
@@ -57,7 +57,7 @@ const ModelConfigModal = memo<ModelConfigModalProps>(
         zIndex={1251} // Select is 1150
       >
         <ModelConfigForm
-          initialValues={{}}
+          // initialValues={{}}
           onFormInstanceReady={setFormInstance}
           showAzureDeployName={showAzureDeployName}
         />

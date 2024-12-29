@@ -1,7 +1,5 @@
 import { AIChatModelCard } from '@/types/aiModel';
 
-// ref: https://fireworks.ai/models?show=Serverless
-// ref: https://fireworks.ai/pricing
 const fireworksaiChatModels: AIChatModelCard[] = [
   {
     abilities: {
@@ -53,6 +51,7 @@ const fireworksaiChatModels: AIChatModelCard[] = [
     displayName: 'Llama 3.2 3B Instruct',
     enabled: true,
     id: 'accounts/fireworks/models/llama-v3p2-3b-instruct',
+    type: 'chat',
   },
   {
     abilities: {
@@ -160,6 +159,9 @@ const fireworksaiChatModels: AIChatModelCard[] = [
     type: 'chat',
   },
   {
+    abilities: {
+      vision: true,
+    },
     contextWindowTokens: 32_064,
     description:
       'Phi-3-Vision-128K-Instruct 是一个轻量级的、最先进的开放多模态模型，它基于包括合成数据和经过筛选的公开网站在内的数据集构建，专注于非常高质量、推理密集型的数据，这些数据既包括文本也包括视觉。该模型属于 Phi-3 模型系列，其多模态版本支持 128K 的上下文长度（以标记为单位）。该模型经过严格的增强过程，结合了监督微调和直接偏好优化，以确保精确遵循指令和强大的安全措施。',
@@ -167,7 +169,6 @@ const fireworksaiChatModels: AIChatModelCard[] = [
     enabled: true,
     id: 'accounts/fireworks/models/phi-3-vision-128k-instruct',
     type: 'chat',
-    vision: true,
   },
   {
     contextWindowTokens: 32_768,

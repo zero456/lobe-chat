@@ -1,6 +1,5 @@
 'use client';
 
-
 import { isCustomBranding } from '@/const/version';
 
 import Footer from './Footer';

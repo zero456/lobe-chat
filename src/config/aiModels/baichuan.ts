@@ -1,7 +1,5 @@
 import { AIChatModelCard } from '@/types/aiModel';
 
-// ref: https://platform.baichuan-ai.com/price
-
 const baichuanChatModels: AIChatModelCard[] = [
   {
     abilities: {

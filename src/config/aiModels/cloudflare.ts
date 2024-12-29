@@ -1,7 +1,5 @@
 import { AIChatModelCard } from '@/types/aiModel';
 
-// ref https://developers.cloudflare.com/workers-ai/models/#text-generation
-// api https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility
 const cloudflareChatModels: AIChatModelCard[] = [
   {
     contextWindowTokens: 16_384,
@@ -80,7 +78,6 @@ const cloudflareChatModels: AIChatModelCard[] = [
   {
     displayName: 'meta-llama-3-8b-instruct',
     enabled: true,
-    functionCall: false,
     id: '@hf/meta-llama/meta-llama-3-8b-instruct',
     type: 'chat',
   },

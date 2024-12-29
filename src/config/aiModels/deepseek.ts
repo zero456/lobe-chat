@@ -1,6 +1,5 @@
 import { AIChatModelCard } from '@/types/aiModel';
 
-// ref: https://platform.deepseek.com/api-docs/pricing
 const deepseekChatModels: AIChatModelCard[] = [
   {
     abilities: {
@@ -8,17 +7,18 @@ const deepseekChatModels: AIChatModelCard[] = [
     },
     contextWindowTokens: 65_536,
     description:
-      '融合通用与代码能力的全新开源模型, 不仅保留了原有 Chat 模型的通用对话能力和 Coder 模型的强大代码处理能力，还更好地对齐了人类偏好。此外，DeepSeek-V2.5 在写作任务、指令跟随等多个方面也实现了大幅提升。',
-    displayName: 'DeepSeek V2.5',
+      '最新模型 DeepSeek-V3 多项评测成绩超越 Qwen2.5-72B 和 Llama-3.1-405B 等开源模型，性能对齐领军闭源模型 GPT-4o 与 Claude-3.5-Sonnet。',
+    displayName: 'DeepSeek V3',
     enabled: true,
     id: 'deepseek-chat',
     pricing: {
-      cachedInput: 0.1,
+      cachedInput: 0.5,
       currency: 'CNY',
-      input: 1,
-      output: 2,
+      input: 2,
+      output: 8,
     },
-    releasedAt: '2024-09-05',
+    releasedAt: '2024-12-26',
+    type: 'chat',
   },
 ];
 

@@ -23,7 +23,6 @@ import { useToolStore } from '@/store/tool';
 import { pluginSelectors, toolSelectors } from '@/store/tool/selectors';
 import { useUserStore } from '@/store/user';
 import {
-  modelConfigSelectors,
   modelProviderSelectors,
   preferenceSelectors,
   userProfileSelectors,

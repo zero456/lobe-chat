@@ -1,6 +1,5 @@
 import { AIChatModelCard } from '@/types/aiModel';
 
-// ref https://docs.ai21.com/reference/jamba-15-api-ref
 const anthropicChatModels: AIChatModelCard[] = [
   {
     abilities: {

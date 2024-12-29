@@ -5,7 +5,6 @@ import { Button } from 'antd';
 import { PlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-
 import { useCreateNewModal } from '../features/CreateNewProvider';
 
 const AddNewProvider = () => {

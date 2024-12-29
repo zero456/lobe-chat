@@ -1,13 +1,6 @@
-import {
-  AIChatModelCard,
-  AIEmbeddingModelCard,
-  AIRealtimeModelCard,
-  AISTTModelCard,
-  AITTSModelCard,
-  AIText2ImageModelCard,
-} from '@/types/aiModel';
+import { AIChatModelCard } from '@/types/aiModel';
 
-export const openaiChatModels: AIChatModelCard[] = [
+const openaiChatModels: AIChatModelCard[] = [
   {
     contextWindowTokens: 128_000,
     description:
@@ -126,19 +119,6 @@ export const openaiChatModels: AIChatModelCard[] = [
     type: 'chat',
   },
   {
-    contextWindowTokens: 128_000,
-    description: 'GPT-4o Audio 模型，支持音频输入输出',
-    displayName: 'GPT-4o Audio',
-    id: 'gpt-4o-audio-preview',
-    maxOutput: 16_384,
-    pricing: {
-      input: 2.5,
-      output: 10,
-    },
-    releasedAt: '2024-10-01',
-    type: 'chat',
-  },
-  {
     abilities: {
       vision: true,
     },
@@ -152,7 +132,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 5,
       output: 15,
     },
-    releasedAt: '2024-08-14',
     type: 'chat',
   },
   {
@@ -185,7 +164,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 10,
       output: 30,
     },
-    releasedAt: '2024-04-09',
     type: 'chat',
   },
   {
@@ -216,7 +194,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 10,
       output: 30,
     },
-    releasedAt: '2024-01-25',
     type: 'chat',
   },
   {
@@ -232,7 +209,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 10,
       output: 30,
     },
-    releasedAt: '2023-11-06',
     type: 'chat',
   },
   {
@@ -263,7 +239,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 30,
       output: 60,
     },
-    releasedAt: '2023-06-13',
     type: 'chat',
   },
   {
@@ -271,13 +246,10 @@ export const openaiChatModels: AIChatModelCard[] = [
       functionCall: true,
     },
     contextWindowTokens: 32_768,
-
     description:
       'GPT-4 提供了一个更大的上下文窗口，能够处理更长的文本输入，适用于需要广泛信息整合和数据分析的场景。',
     displayName: 'GPT-4 32K',
     id: 'gpt-4-32k',
-    // Will be discontinued on June 6, 2025
-    legacy: true,
     pricing: {
       input: 60,
       output: 120,
@@ -297,7 +269,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 60,
       output: 120,
     },
-    releasedAt: '2023-06-13',
     type: 'chat',
   },
   {
@@ -328,7 +299,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 0.5,
       output: 1.5,
     },
-    releasedAt: '2024-01-25',
     type: 'chat',
   },
   {
@@ -344,7 +314,6 @@ export const openaiChatModels: AIChatModelCard[] = [
       input: 1,
       output: 2,
     },
-    releasedAt: '2023-11-06',
     type: 'chat',
   },
   {
@@ -361,175 +330,6 @@ export const openaiChatModels: AIChatModelCard[] = [
   },
 ];
 
-export const openaiEmbeddingModels: AIEmbeddingModelCard[] = [
-  {
-    contextWindowTokens: 8192,
-    description: '最强大的向量化模型，适用于英文和非英文任务',
-    displayName: 'Text Embedding 3 Large',
-    id: 'text-embedding-3-large',
-    maxDimension: 3072,
-    pricing: {
-      currency: 'USD',
-      input: 0.13,
-    },
-    releasedAt: '2024-01-25',
-    type: 'embedding',
-  },
-  {
-    contextWindowTokens: 8192,
-    description: '高效且经济的新一代 Embedding 模型，适用于知识检索、RAG 应用等场景',
-    displayName: 'Text Embedding 3 Small',
-    id: 'text-embedding-3-small',
-    maxDimension: 1536,
-    pricing: {
-      currency: 'USD',
-      input: 0.02,
-    },
-    releasedAt: '2024-01-25',
-    type: 'embedding',
-  },
-];
-
-// 语音合成模型
-export const openaiTTSModels: AITTSModelCard[] = [
-  {
-    description: '最新的文本转语音模型，针对实时场景优化速度',
-    displayName: 'TTS-1',
-    id: 'tts-1',
-    pricing: {
-      input: 15,
-    },
-    type: 'tts',
-  },
-  {
-    description: '最新的文本转语音模型，针对质量进行优化',
-    displayName: 'TTS-1 HD',
-    id: 'tts-1-hd',
-    pricing: {
-      input: 30,
-    },
-    type: 'tts',
-  },
-];
-
-// 语音识别模型
-export const openaiSTTModels: AISTTModelCard[] = [
-  {
-    description: '通用语音识别模型，支持多语言语音识别、语音翻译和语言识别',
-    displayName: 'Whisper',
-    id: 'whisper-1',
-    pricing: {
-      input: 0.006, // per minute
-    },
-    type: 'stt',
-  },
-];
-
-// 图像生成模型
-export const openaiImageModels: AIText2ImageModelCard[] = [
-  {
-    description:
-      '最新的 DALL·E 模型，于2023年11月发布。支持更真实、准确的图像生成，具有更强的细节表现力',
-    displayName: 'DALL·E 3',
-    id: 'dall-e-3',
-    pricing: {
-      hd: 0.08,
-      standard: 0.04,
-    },
-    resolutions: ['1024x1024', '1024x1792', '1792x1024'],
-    type: 'image',
-  },
-  {
-    description: '第二代 DALL·E 模型，支持更真实、准确的图像生成，分辨率是第一代的4倍',
-    displayName: 'DALL·E 2',
-    id: 'dall-e-2',
-    pricing: {
-      input: 0.02, // $0.020 per image (1024×1024)
-    },
-    resolutions: ['256x256', '512x512', '1024x1024'],
-    type: 'image',
-  },
-];
-
-// GPT-4o 和 GPT-4o-mini 实时模型
-export const openaiRealtimeModels: AIRealtimeModelCard[] = [
-  {
-    contextWindowTokens: 128_000,
-    description: 'GPT-4o 实时版本，支持音频和文本实时输入输出',
-    displayName: 'GPT-4o Realtime',
-    id: 'gpt-4o-realtime-preview',
-    maxOutput: 4096,
-    pricing: {
-      audioInput: 100,
-      audioOutput: 200,
-      cachedAudioInput: 20,
-      cachedInput: 2.5,
-      input: 5,
-      output: 20,
-    },
-    releasedAt: '2024-10-01',
-    type: 'realtime',
-  },
-  {
-    contextWindowTokens: 128_000,
-    description: 'GPT-4o 实时版本，支持音频和文本实时输入输出',
-    displayName: 'GPT-4o Realtime 10-01',
-    id: 'gpt-4o-realtime-preview-2024-10-01',
-    maxOutput: 4096,
-    pricing: {
-      audioInput: 100,
-      audioOutput: 200,
-      cachedAudioInput: 20,
-      cachedInput: 2.5,
-      input: 5,
-      output: 20,
-    },
-    releasedAt: '2024-10-01',
-    type: 'realtime',
-  },
-  {
-    contextWindowTokens: 128_000,
-    description: 'GPT-4o 实时版本，支持音频和文本实时输入输出',
-    displayName: 'GPT-4o Realtime 12-17',
-    id: 'gpt-4o-realtime-preview-2024-12-17',
-    maxOutput: 4096,
-    pricing: {
-      audioInput: 40,
-      audioOutput: 80,
-      cachedAudioInput: 2.5,
-      cachedInput: 2.5,
-      input: 5,
-      output: 20,
-    },
-    releasedAt: '2024-12-17',
-    type: 'realtime',
-  },
-  {
-    contextWindowTokens: 128_000,
-    description: 'GPT-4o-mini 实时版本，支持音频和文本实时输入输出',
-    displayName: 'GPT-4o Mini Realtime',
-    id: 'gpt-4o-mini-realtime-preview',
-    maxOutput: 4096,
-    pricing: {
-      audioInput: 10,
-      audioOutput: 20,
-      cachedAudioInput: 0.3,
-      cachedInput: 0.3,
-      input: 0.6,
-      output: 2.4,
-    },
-    releasedAt: '2024-12-17',
-    type: 'realtime',
-  },
-];
-
-export const allModels = [
-  ...openaiChatModels,
-  ...openaiEmbeddingModels,
-  ...openaiTTSModels,
-  ...openaiSTTModels,
-  ...openaiImageModels,
-  ...openaiRealtimeModels,
-];
+export const allModels = [...openaiChatModels];
 
 export default allModels;

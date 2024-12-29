@@ -13,9 +13,7 @@ const Page = async () => {
     showApiKey: showOpenAIApiKey,
   };
 
-  return (
-    <ProviderDetail {...card} />
-  );
+  return <ProviderDetail {...card} />;
 };
 
 export default Page;

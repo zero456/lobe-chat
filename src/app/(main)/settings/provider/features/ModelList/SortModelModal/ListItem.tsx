@@ -5,7 +5,7 @@ import { Flexbox } from 'react-layout-kit';
 
 import { AiProviderModelListItem } from '@/types/aiModel';
 
-const ListItem = memo<AiProviderModelListItem>(({ id, displayName, source }) => {
+const ListItem = memo<AiProviderModelListItem>(({ id, displayName }) => {
   return (
     <>
       <Flexbox gap={8} horizontal>
