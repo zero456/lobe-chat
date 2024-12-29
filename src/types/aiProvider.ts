@@ -7,7 +7,7 @@ export const CreateAiProviderSchema = z.object({
   config: z.object({}).passthrough().optional(),
   description: z.string().optional(),
   id: z.string(),
-  keyVaults: z.object({}).passthrough().optional(),
+  keyVaults: z.any().optional(),
   logo: z.string().optional(),
   name: z.string(),
   sdkType: z.enum(['openai', 'anthropic']).optional(),
@@ -109,7 +109,6 @@ export interface AiProviderDetailItem {
   config: AiProviderConfig;
   description?: string;
   enabled: boolean;
-  enabledChatModels: string[];
   fetchOnClient?: boolean;
   /**
    * provider's website url

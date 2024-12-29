@@ -14,10 +14,13 @@ import {
 
 const FETCH_AI_PROVIDER_LIST_KEY = 'FETCH_AI_PROVIDER';
 const FETCH_AI_PROVIDER_ITEM_KEY = 'FETCH_AI_PROVIDER_ITEM';
+const FETCH_ENABLED_AI_PROVIDER_KEY_VAULTS_KEY = 'FETCH_ENABLED_AI_PROVIDER_KEY_VAULTS';
 
 export interface AiProviderAction {
   createNewAiProvider: (params: CreateAiProviderParams) => Promise<void>;
   internal_toggleAiProviderLoading: (id: string, loading: boolean) => void;
+  refreshAiProviderDetail: () => Promise<void>;
+  refreshAiProviderKeyVaults: () => Promise<void>;
   refreshAiProviderList: () => Promise<void>;
 
   removeAiProvider: (id: string) => Promise<void>;
@@ -27,6 +30,7 @@ export interface AiProviderAction {
   updateAiProviderSort: (items: AiProviderSortMap[]) => Promise<void>;
 
   useFetchAiProviderItem: (id: string) => SWRResponse<AiProviderDetailItem | undefined>;
+  useFetchAiProviderKeyVaults: () => SWRResponse<Record<string, object> | undefined>;
   useFetchAiProviderList: (params?: { suspense?: boolean }) => SWRResponse<AiProviderListItem[]>;
 }
 
@@ -50,6 +54,13 @@ export const createAiProviderSlice: StateCreator<
       false,
       'toggleAiProviderLoading',
     );
+  },
+  refreshAiProviderDetail: async () => {
+    await mutate([FETCH_AI_PROVIDER_ITEM_KEY, get().activeAiProvider]);
+    await get().refreshAiProviderKeyVaults();
+  },
+  refreshAiProviderKeyVaults: async () => {
+    await mutate(FETCH_ENABLED_AI_PROVIDER_KEY_VAULTS_KEY);
   },
   refreshAiProviderList: async () => {
     await mutate(FETCH_AI_PROVIDER_LIST_KEY);
@@ -78,7 +89,7 @@ export const createAiProviderSlice: StateCreator<
   updateAiProviderConfig: async (id, value) => {
     get().internal_toggleAiProviderLoading(id, true);
     await aiProviderService.updateAiProviderConfig(id, value);
-    await get().refreshAiProviderList();
+    await get().refreshAiProviderDetail();
 
     get().internal_toggleAiProviderLoading(id, false);
   },
@@ -99,8 +110,20 @@ export const createAiProviderSlice: StateCreator<
         },
       },
     ),
+  useFetchAiProviderKeyVaults: () =>
+    useClientDataSWR<Record<string, object> | undefined>(
+      [FETCH_ENABLED_AI_PROVIDER_KEY_VAULTS_KEY],
+      () => aiProviderService.getAiProviderKeyVaults(),
+      {
+        onSuccess: (data) => {
+          if (!data) return;
 
-  useFetchAiProviderList: (params = {}) =>
+          set({ aiProviderKeyVaults: data }, false, 'useFetchAiProviderKeyVaults');
+        },
+      },
+    ),
+
+  useFetchAiProviderList: () =>
     useClientDataSWR<AiProviderListItem[]>(
       FETCH_AI_PROVIDER_LIST_KEY,
       () => aiProviderService.getAiProviderList(),
@@ -118,7 +141,6 @@ export const createAiProviderSlice: StateCreator<
 
           set({ aiProviderList: data }, false, 'useFetchAiProviderList/refresh');
         },
-        suspense: params.suspense,
       },
     ),
 });

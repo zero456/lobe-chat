@@ -69,6 +69,12 @@ const isProviderFetchOnClient =
     return false;
   };
 
+const providerKeyVaults = (provider: string | undefined) => (s: AIProviderStoreState) => {
+  if (!provider) return undefined;
+
+  return s.aiProviderKeyVaults[provider];
+};
+
 export const aiProviderSelectors = {
   disabledAiProviderList,
   enabledAiProviderList,
@@ -78,4 +84,5 @@ export const aiProviderSelectors = {
   isProviderEnabled,
   isProviderFetchOnClient,
   isProviderLoading,
+  providerKeyVaults,
 };

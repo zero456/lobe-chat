@@ -9,6 +9,7 @@ import { authedProcedure, router } from '@/libs/trpc';
 import { getServerGlobalConfig } from '@/server/globalConfig';
 import { KeyVaultsGateKeeper } from '@/server/modules/KeyVaultsEncrypt';
 import {
+  AiProviderDetailItem,
   AiProviderListItem,
   CreateAiProviderSchema,
   UpdateAiProviderConfigSchema,
@@ -42,9 +43,14 @@ export const aiProviderRouter = router({
   getAiProviderById: aiProviderProcedure
     .input(z.object({ id: z.string() }))
 
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input, ctx }): Promise<AiProviderDetailItem> => {
       return ctx.aiProviderModel.getAiProviderById(input.id, KeyVaultsGateKeeper.getUserKeyVaults);
     }),
+
+  getAiProviderKeyVaults: aiProviderProcedure.query(async ({ ctx }) => {
+    return ctx.aiProviderModel.getAiProviderKeyVaults(KeyVaultsGateKeeper.getUserKeyVaults);
+  }),
+
   getAiProviderList: aiProviderProcedure.query(async ({ ctx }) => {
     const { languageModel } = getServerGlobalConfig();
     const userSettings = await ctx.userModel.getUserSettings();

@@ -153,15 +153,19 @@ export class AiProviderModel {
     });
   };
 
-  getAiProviderById = async (id: string, decryptor: DecryptUserKeyVaults) => {
+  getAiProviderById = async (
+    id: string,
+    decryptor: DecryptUserKeyVaults,
+  ): Promise<AiProviderDetailItem> => {
     const query = this.db
       .select({
         checkModel: aiProviders.checkModel,
         config: aiProviders.config,
-        enabledChatModels: aiProviders.enabledChatModels,
+        enabled: aiProviders.enabled,
         id: aiProviders.id,
         keyVaults: aiProviders.keyVaults,
         name: aiProviders.name,
+        source: aiProviders.source,
       })
       .from(aiProviders)
       .where(and(eq(aiProviders.id, id), eq(aiProviders.userId, this.userId)))
@@ -176,7 +180,7 @@ export class AiProviderModel {
 
         const resultAgain = await query;
 
-        return resultAgain[0];
+        return { ...resultAgain[0] };
       }
 
       throw new Error(`provider ${id} not found`);
@@ -187,6 +191,25 @@ export class AiProviderModel {
     const keyVaults = await decrypt(result.keyVaults);
 
     return { ...result, keyVaults } as AiProviderDetailItem;
+  };
+
+  getAiProviderKeyVaults = async (decryptor: DecryptUserKeyVaults) => {
+    const result = await this.db
+      .select({
+        id: aiProviders.id,
+        keyVaults: aiProviders.keyVaults,
+      })
+      .from(aiProviders)
+      .where(and(eq(aiProviders.userId, this.userId)));
+
+    const decrypt = decryptor ?? JSON.parse;
+    let providerKeyVaults: Record<string, object> = {};
+
+    for (const item of result) {
+      providerKeyVaults[item.id] = await decrypt(item.keyVaults);
+    }
+
+    return providerKeyVaults;
   };
 
   private isBuiltInProvider = (id: string) => Object.values(ModelProvider).includes(id as any);

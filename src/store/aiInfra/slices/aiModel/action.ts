@@ -12,7 +12,6 @@ import {
 } from '@/types/aiModel';
 
 const FETCH_AI_PROVIDER_MODEL_LIST_KEY = 'FETCH_AI_PROVIDER_MODELS';
-const FETCH_PROVIDER_REMOTE_MODEL_LIST_KEY = 'FETCH_PROVIDER_REMOTE_MODEL_LIST';
 
 export interface AiModelAction {
   batchUpdateAiModels: (models: AiProviderModelListItem[]) => Promise<void>;

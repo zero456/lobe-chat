@@ -1,5 +1,9 @@
 import { lambdaClient } from '@/libs/trpc/client';
-import { AiProviderSortMap, CreateAiProviderParams, UpdateAiProviderConfigParams } from '@/types/aiProvider';
+import {
+  AiProviderSortMap,
+  CreateAiProviderParams,
+  UpdateAiProviderConfigParams,
+} from '@/types/aiProvider';
 
 class AiProviderService {
   createAiProvider = async (params: CreateAiProviderParams) => {
@@ -33,6 +37,10 @@ class AiProviderService {
   deleteAiProvider = async (id: string) => {
     return lambdaClient.aiProvider.removeAiProvider.mutate({ id });
   };
+
+  getAiProviderKeyVaults() {
+    return lambdaClient.aiProvider.getAiProviderKeyVaults.query();
+  }
 }
 
 export const aiProviderService = new AiProviderService();

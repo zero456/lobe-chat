@@ -4,7 +4,6 @@ import {
   AiProviderModelListItem,
   CreateAiModelParams,
   ToggleAiModelEnableParams,
-  UpdateAiModelConfigParams,
 } from '@/types/aiModel';
 
 class AiModelService {

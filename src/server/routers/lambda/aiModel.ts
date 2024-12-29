@@ -34,7 +34,7 @@ export const aiModelRouter = router({
     .input(
       z.object({
         id: z.string(),
-        models: z.array(z.object({}).passthrough()),
+        models: z.array(z.any()),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -48,7 +48,7 @@ export const aiModelRouter = router({
     }),
 
   createAiModel: aiModelProcedure.input(CreateAiModelSchema).mutation(async ({ input, ctx }) => {
-    const data = await ctx.aiModelModel.create(input, ctx.gateKeeper.encrypt);
+    const data = await ctx.aiModelModel.create(input);
 
     return data?.id;
   }),
@@ -137,7 +137,7 @@ export const aiModelRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      return ctx.aiModelModel.updateConfig(input.id, input.value, ctx.gateKeeper.encrypt);
+      return ctx.aiModelModel.updateConfig(input.id, input.value);
     }),
 
   updateAiModelOrder: aiModelProcedure
