@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from 'drizzle-orm/expressions';
+import { and, asc, desc, eq, inArray } from 'drizzle-orm/expressions';
 
 import { LobeChatDatabase } from '@/database/type';
 import {
@@ -109,18 +109,70 @@ export class AiModelModel {
 
   batchUpdateAiModels = async (providerId: string, models: AiModelSelectItem[]) => {
     return this.db.transaction(async (trx) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const pools = models.map(async ({ id, providerId: _, ...model }) => {
-        return trx
-          .insert(aiModels)
-          .values({ ...model, id, providerId, updatedAt: new Date(), userId: this.userId })
-          .onConflictDoNothing({
-            set: { ...model, updatedAt: new Date() },
-            target: [aiModels.id, aiModels.userId, aiModels.providerId],
-          });
-      });
+      const records = models.map(({ id, providerId: _, ...model }) => ({
+        ...model,
+        id,
+        providerId,
+        updatedAt: new Date(),
+        userId: this.userId,
+      }));
 
-      await Promise.all(pools);
+      // 第一步：尝试插入所有记录，忽略冲突
+      const insertResult = await trx
+        .insert(aiModels)
+        .values(records)
+        .onConflictDoNothing({
+          target: [aiModels.id, aiModels.userId, aiModels.providerId],
+        });
+
+      // 第二步：找出需要更新的记录（即插入时发生冲突的记录）
+      const recordIds = records.map((r) => r.id);
+      const existingRecords = await trx
+        .select()
+        .from(aiModels)
+        .where(
+          and(
+            inArray(aiModels.id, recordIds),
+            eq(aiModels.userId, this.userId),
+            eq(aiModels.providerId, providerId),
+          ),
+        );
+
+      const existingIds = new Set(existingRecords.map((r) => r.id));
+      const recordsToUpdate = records.filter((r) => existingIds.has(r.id));
+
+      // 第三步：更新已存在的记录
+      if (recordsToUpdate.length > 0) {
+        const updatePromises = recordsToUpdate.map((record) =>
+          trx
+            .update(aiModels)
+            .set({
+              abilities: record.abilities,
+              config: record.config,
+              contextWindowTokens: record.contextWindowTokens,
+              description: record.description,
+              displayName: record.displayName,
+              enabled: record.enabled,
+              organization: record.organization,
+              parameters: record.parameters,
+              pricing: record.pricing,
+              releasedAt: record.releasedAt,
+              sort: record.sort,
+              source: record.source,
+              type: record.type,
+              updatedAt: new Date(),
+            })
+            .where(
+              and(
+                eq(aiModels.id, record.id),
+                eq(aiModels.userId, this.userId),
+                eq(aiModels.providerId, providerId),
+              ),
+            ),
+        );
+
+        await Promise.all(updatePromises);
+      }
     });
   };
 

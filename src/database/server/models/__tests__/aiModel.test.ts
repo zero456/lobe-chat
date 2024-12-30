@@ -28,6 +28,7 @@ describe('AiModelModel', () => {
       const params: NewAiModelItem = {
         organization: 'Qwen',
         id: 'qvq',
+        providerId: 'openai',
       };
 
       const result = await aiProviderModel.create(params);
@@ -42,9 +43,13 @@ describe('AiModelModel', () => {
   });
   describe('delete', () => {
     it('should delete a ai provider by id', async () => {
-      const { id } = await aiProviderModel.create({ organization: 'Qwen', id: 'qvq' });
+      const { id } = await aiProviderModel.create({
+        organization: 'Qwen',
+        providerId: 'openai',
+        id: 'qvq',
+      });
 
-      await aiProviderModel.delete(id);
+      await aiProviderModel.delete(id, 'openai');
 
       const group = await serverDB.query.aiModels.findFirst({
         where: eq(aiModels.id, id),
@@ -54,8 +59,12 @@ describe('AiModelModel', () => {
   });
   describe('deleteAll', () => {
     it('should delete all ai providers for the user', async () => {
-      await aiProviderModel.create({ organization: 'Qwen', id: 'qvq' });
-      await aiProviderModel.create({ organization: 'Qwen', id: 'aihubmix-2' });
+      await aiProviderModel.create({ organization: 'Qwen', providerId: 'openai', id: 'qvq' });
+      await aiProviderModel.create({
+        organization: 'Qwen',
+        providerId: 'openai',
+        id: 'aihubmix-2',
+      });
 
       await aiProviderModel.deleteAll();
 
@@ -65,11 +74,15 @@ describe('AiModelModel', () => {
       expect(userGroups).toHaveLength(0);
     });
     it('should only delete ai providers for the user, not others', async () => {
-      await aiProviderModel.create({ organization: 'Qwen', id: 'qvq' });
-      await aiProviderModel.create({ organization: 'Qwen', id: 'aihubmix-2' });
+      await aiProviderModel.create({ organization: 'Qwen', providerId: 'openai', id: 'qvq' });
+      await aiProviderModel.create({
+        organization: 'Qwen',
+        providerId: 'openai',
+        id: 'aihubmix-2',
+      });
 
       const anotherAiModelModel = new AiModelModel(serverDB, 'user2');
-      await anotherAiModelModel.create({ id: 'qvq' });
+      await anotherAiModelModel.create({ id: 'qvq', providerId: 'openai' });
 
       await aiProviderModel.deleteAll();
 
@@ -84,8 +97,12 @@ describe('AiModelModel', () => {
 
   describe('query', () => {
     it('should query ai providers for the user', async () => {
-      await aiProviderModel.create({ organization: 'Qwen', id: 'qvq' });
-      await aiProviderModel.create({ organization: 'Qwen', id: 'aihubmix-2' });
+      await aiProviderModel.create({ organization: 'Qwen', providerId: 'openai', id: 'qvq' });
+      await aiProviderModel.create({
+        organization: 'Qwen',
+        providerId: 'openai',
+        id: 'aihubmix-2',
+      });
 
       const userGroups = await aiProviderModel.query();
       expect(userGroups).toHaveLength(2);
@@ -96,12 +113,18 @@ describe('AiModelModel', () => {
 
   describe('findById', () => {
     it('should find a ai provider by id', async () => {
-      const { id } = await aiProviderModel.create({ organization: 'Qwen', id: 'qvq' });
+      const { id } = await aiProviderModel.create({
+        organization: 'Qwen',
+        providerId: 'openai',
+        id: 'qvq',
+      });
 
       const group = await aiProviderModel.findById(id);
       expect(group).toMatchObject({
         id,
         organization: 'Qwen',
+        providerId: 'openai',
+
         userId,
       });
     });
@@ -109,9 +132,13 @@ describe('AiModelModel', () => {
 
   describe('update', () => {
     it('should update a ai provider', async () => {
-      const { id } = await aiProviderModel.create({ organization: 'Qwen', id: 'qvq' });
+      const { id } = await aiProviderModel.create({
+        organization: 'Qwen',
+        providerId: 'openai',
+        id: 'qvq',
+      });
 
-      await aiProviderModel.update(id, {
+      await aiProviderModel.update(id, 'openai', {
         displayName: 'Updated Test Group',
         contextWindowTokens: 3000,
       });

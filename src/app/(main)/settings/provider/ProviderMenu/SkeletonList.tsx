@@ -11,8 +11,9 @@ const useStyles = createStyles(({ css, prefixCls }) => ({
   `,
   container: css`
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
     height: 40px;
     padding-block: 8px;
     padding-inline: 12px;

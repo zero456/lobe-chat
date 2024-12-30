@@ -74,9 +74,9 @@ const useStyles = createStyles(({ css, prefixCls, responsive, token }) => ({
   `,
   switchLoading: css`
     width: 44px !important;
+    min-width: 44px !important;
     height: 22px !important;
     border-radius: 12px !important;
-    min-width: 44px !important;
   `,
 }));
 

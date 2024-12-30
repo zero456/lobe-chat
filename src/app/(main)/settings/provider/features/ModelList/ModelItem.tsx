@@ -15,15 +15,15 @@ import ModelConfigModal from './ModelConfigModal';
 
 export const useStyles = createStyles(({ css, token, cx }) => {
   const config = css`
-    transition: all 100ms ease-in-out;
     opacity: 0;
+    transition: all 100ms ease-in-out;
   `;
 
   return {
     config,
     container: css`
+      position: relative;
       border-radius: 12px;
-
       transition: all 200ms ease-in-out;
 
       &:hover {
@@ -33,16 +33,15 @@ export const useStyles = createStyles(({ css, token, cx }) => {
           opacity: 1;
         }
       }
-
-      position: relative;
     `,
     desc: css`
       flex: 1;
       min-width: 0;
+
       span {
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
     `,
   };

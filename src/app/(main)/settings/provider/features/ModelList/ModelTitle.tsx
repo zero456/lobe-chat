@@ -1,7 +1,7 @@
 import { ActionIcon, Icon } from '@lobehub/ui';
-import { Button, Skeleton, Space, Typography } from 'antd';
+import {Button, Input, Skeleton, Space, Typography} from 'antd';
 import { useTheme } from 'antd-style';
-import { CircleX, LucideRefreshCcwDot, PlusIcon } from 'lucide-react';
+import { CircleX, LucideRefreshCcwDot, PlusIcon, SearchIcon } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
@@ -19,13 +19,14 @@ const ModelTitle = memo<ModelFetcherProps>(({ provider }) => {
   const theme = useTheme();
   const { t } = useTranslation('setting');
   const [
+    searchKeyword,
     totalModels,
     hasRemoteModels,
     fetchRemoteModelList,
     clearObtainedModels,
     useFetchAiProviderModels,
   ] = useAiInfraStore((s) => [
-    // s.modelSearchKeyword,
+    s.modelSearchKeyword,
     aiModelSelectors.totalAiProviderModelList(s),
     aiModelSelectors.hasRemoteModels(s),
     s.fetchRemoteModelList,
@@ -78,17 +79,17 @@ const ModelTitle = memo<ModelFetcherProps>(({ provider }) => {
           <Skeleton.Button active size={'small'} style={{ width: 120 }} />
         ) : (
           <Flexbox gap={8} horizontal>
-            {/*{totalModels >= 30 && (*/}
-            {/*  <Input*/}
-            {/*    onChange={(e) => {*/}
-            {/*      useAiInfraStore.setState({ modelSearchKeyword: e.target.value });*/}
-            {/*    }}*/}
-            {/*    placeholder={'搜索模型...'}*/}
-            {/*    prefix={<Icon icon={SearchIcon} />}*/}
-            {/*    size={'small'}*/}
-            {/*    value={searchKeyword}*/}
-            {/*  />*/}
-            {/*)}*/}
+            {totalModels >= 30 && (
+              <Input
+                onChange={(e) => {
+                  useAiInfraStore.setState({ modelSearchKeyword: e.target.value });
+                }}
+                placeholder={'搜索模型...'}
+                prefix={<Icon icon={SearchIcon} />}
+                size={'small'}
+                value={searchKeyword}
+              />
+            )}
             <Space.Compact>
               <Button
                 icon={<Icon icon={LucideRefreshCcwDot} />}

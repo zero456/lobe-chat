@@ -14,11 +14,14 @@ import Card from './Card';
 
 const useStyles = createStyles(({ css, responsive, token }) => ({
   count: css`
-    border-radius: 12px;
-    background: ${token.colorFillSecondary};
-    color: ${token.colorTextDescription};
     height: 20px;
-    padding: 0 6px;
+    padding-block: 0;
+    padding-inline: 6px;
+
+    color: ${token.colorTextDescription};
+
+    background: ${token.colorFillSecondary};
+    border-radius: 12px;
   `,
   grid: css`
     grid-template-columns: repeat(2, 1fr);

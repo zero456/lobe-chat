@@ -181,7 +181,7 @@ export class AiProviderModel {
 
         const resultAgain = await query;
 
-        return { ...resultAgain[0] };
+        return {...resultAgain[0]} as unknown as AiProviderDetailItem;
       }
 
       throw new Error(`provider ${id} not found`);

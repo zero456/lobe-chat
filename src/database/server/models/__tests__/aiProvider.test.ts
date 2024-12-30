@@ -25,10 +25,10 @@ afterEach(async () => {
 describe('AiProviderModel', () => {
   describe('create', () => {
     it('should create a new ai provider', async () => {
-      const params: NewAiProviderItem = {
+      const params = {
         name: 'AiHubMix',
         id: 'aihubmix',
-      };
+      } as const;
 
       const result = await aiProviderModel.create(params);
       expect(result.id).toBeDefined();
@@ -69,7 +69,7 @@ describe('AiProviderModel', () => {
       await aiProviderModel.create({ name: 'AiHubMix', id: 'aihubmix-2' });
 
       const anotherAiProviderModel = new AiProviderModel(serverDB, 'user2');
-      await anotherAiProviderModel.create({ id: 'aihubmix' });
+      await anotherAiProviderModel.create({ id: 'aihubmix', name: 'Another provider' });
 
       await aiProviderModel.deleteAll();
 
